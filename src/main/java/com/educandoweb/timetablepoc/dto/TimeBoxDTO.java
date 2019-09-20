@@ -3,14 +3,25 @@ package com.educandoweb.timetablepoc.dto;
 import java.io.Serializable;
 import java.time.Instant;
 
-public class IntervalDTO implements Serializable {
+import com.educandoweb.timetablepoc.entities.TimeBox;
+
+public class TimeBoxDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Instant start;
 	private Instant end;
-	private Long timeTableId;
+
+	public TimeBoxDTO() {
+	}
+
+	public TimeBoxDTO(Instant start, Instant end) {
+		this.start = start;
+		this.end = end;
+	}
 	
-	public IntervalDTO() {
+	public TimeBoxDTO(TimeBox entity) {
+		this.start = entity.getStart();
+		this.end = entity.getEnd();
 	}
 
 	public Instant getStart() {
@@ -27,13 +38,5 @@ public class IntervalDTO implements Serializable {
 
 	public void setEnd(Instant end) {
 		this.end = end;
-	}
-
-	public Long getTimeTableId() {
-		return timeTableId;
-	}
-
-	public void setTimeTableId(Long timeTableId) {
-		this.timeTableId = timeTableId;
 	}
 }

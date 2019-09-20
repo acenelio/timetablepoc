@@ -1,60 +1,34 @@
 package com.educandoweb.timetablepoc.entities;
 
-import java.time.DayOfWeek;
+import java.io.Serializable;
+import java.time.Instant;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.educandoweb.timetablepoc.entities.interfaces.TimeEntry;
 
 @Entity
 @Table(name = "tb_time_box")
-public class TimeBox implements TimeEntry {
+public class TimeBox implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private DayOfWeek day;
-	private Long startMillisecond;
-	private Long endMillisecond;
+	private Instant start;
+	private Instant end;
 
-	@ManyToOne
-	@JoinColumn(name = "time_table_id")
-	private TimeTable timeTable;
-	
 	public TimeBox() {
 	}
-	
-	public TimeBox(Long id, DayOfWeek day, Long startMillisecond, Long endMillisecond, TimeTable timeTable) {
-		if (startMillisecond >= endMillisecond) {
-			throw new IllegalArgumentException("Start time must be less than end time");
-		}
+
+	public TimeBox(Long id, Instant start, Instant end) {
 		this.id = id;
-		this.day = day;
-		this.startMillisecond = startMillisecond;
-		this.endMillisecond = endMillisecond;
-		this.timeTable = timeTable;
+		this.start = start;
+		this.end = end;
 	}
 
-	public TimeBox(Long id, DayOfWeek day, Long startHour, Long startMinute, Long endHour, Long endMinute, TimeTable timeTable) {
-		Long startMillisecond = startHour * 3600000L + startMinute * 60000L;
-		Long endMillisecond = endHour * 3600000L + endMinute * 60000L;
-		if (startMillisecond >= endMillisecond) {
-			throw new IllegalArgumentException("Start time must be less than end time");
-		}
-		this.id = id;
-		this.day = day;
-		this.startMillisecond = startMillisecond;
-		this.endMillisecond = endMillisecond;
-		this.timeTable = timeTable;
-	}
-	
 	public Long getId() {
 		return id;
 	}
@@ -63,41 +37,28 @@ public class TimeBox implements TimeEntry {
 		this.id = id;
 	}
 
-	@Override
-	public DayOfWeek getDay() {
-		return day;
+	public Instant getStart() {
+		return start;
 	}
 
-	public void setDay(DayOfWeek day) {
-		this.day = day;
+	public void setStart(Instant start) {
+		this.start = start;
 	}
 
-	@Override
-	public Long getStartMillisecond() {
-		return startMillisecond;
+	public Instant getEnd() {
+		return end;
 	}
 
-	@Override
-	public Long getEndMillisecond() {
-		return endMillisecond;
-	}
-
-	public TimeTable getTimeTable() {
-		return timeTable;
-	}
-
-	public void setTimeTable(TimeTable timeTable) {
-		this.timeTable = timeTable;
+	public void setEnd(Instant end) {
+		this.end = end;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((day == null) ? 0 : day.hashCode());
-		result = prime * result + ((endMillisecond == null) ? 0 : endMillisecond.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((startMillisecond == null) ? 0 : startMillisecond.hashCode());
+		result = prime * result + ((end == null) ? 0 : end.hashCode());
+		result = prime * result + ((start == null) ? 0 : start.hashCode());
 		return result;
 	}
 
@@ -110,23 +71,16 @@ public class TimeBox implements TimeEntry {
 		if (getClass() != obj.getClass())
 			return false;
 		TimeBox other = (TimeBox) obj;
-		if (day != other.day)
-			return false;
-		if (endMillisecond == null) {
-			if (other.endMillisecond != null)
+		if (end == null) {
+			if (other.end != null)
 				return false;
-		} else if (!endMillisecond.equals(other.endMillisecond))
+		} else if (!end.equals(other.end))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (start == null) {
+			if (other.start != null)
 				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (startMillisecond == null) {
-			if (other.startMillisecond != null)
-				return false;
-		} else if (!startMillisecond.equals(other.startMillisecond))
+		} else if (!start.equals(other.start))
 			return false;
 		return true;
-	}	
+	}
 }

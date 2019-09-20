@@ -89,10 +89,6 @@ public class TimeTableEntry implements TimeEntry  {
 	public void setTimeTable(TimeTable timeTable) {
 		this.timeTable = timeTable;
 	}
-
-	public TimeBox toTimeBox() {
-		return new TimeBox(id, day, startMillisecond, endMillisecond, timeTable);
-	}
 	
 	@Override
 	public int hashCode() {
